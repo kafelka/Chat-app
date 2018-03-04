@@ -1,0 +1,218 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  width: 70vw;
+  margin: 2vw auto;
+  background: rgb(130, 134, 179);
+  color: white;
+  font-family: Arial;
+}
+
+/* nav ul {
+  list-style: none;
+  background-color: rgb(240, 218, 19);
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  font-family: 'Oswald', sans-serif;
+  color: rgb(130, 134, 179);
+  font-size: 1em;
+  line-height: 40px;
+  height: 40px;
+  border-bottom: 1px solid #888; 
+}
+
+nav a {
+  text-decoration: none;
+  cursor: default;
+}
+
+nav a:hover {
+  background-color: rgb(186, 189, 216);
+  transition: .3s background-color;
+  /* transition - I add it to the a tag though and not the hover selector. This will allow the transition to happen both when you mouse over the link and also when you move your mouse away. */
+  /*
+}
+
+li.active {
+  background-color: rgb(170, 155, 16);
+  color: #444;
+  
+}
+
+@media screen and (min-width: 600px) {
+  nav li {
+    width: 20vw;
+    border-bottom: none;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4em;
+    display: inline-block;
+  }
+} */
+
+/* nav {
+  float: left;
+} */
+
+
+section {
+  width: 42vw;
+  margin-left: 10px;
+}
+
+ul.tabs {
+	width: 42vw;
+	height: 80px;
+	margin: 0 auto;
+	list-style: none;
+	overflow: hidden;
+  padding: 0;
+}
+
+ul.tabs li {	
+	float: left;
+	width: 14vw;
+}
+
+ul.tabs li a {
+	position: relative;
+	display: block;
+	height: 30px;
+	margin-top: 40px;
+	padding: 10px 0 0 0;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	text-align: center;	
+	text-decoration: none;
+	color: black;
+	background: #c8db18;
+	-webkit-box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.4);
+	   -moz-box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.4);
+	        box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.4);
+	        	border: 0px solid #000000;
+	-webkit-transition: padding 0.2s ease, margin 0.2s ease;
+       -moz-transition: padding 0.2s ease, margin 0.2s ease;
+         -o-transition: padding 0.2s ease, margin 0.2s ease;
+        -ms-transition: padding 0.2s ease, margin 0.2s ease;
+            transition: padding 0.2s ease, margin 0.2s ease;
+}
+
+.tabs li:first-child a {
+	z-index: 3;
+  -webkit-border-top-left-radius: 8px;
+-moz-border-radius-topleft: 8px;
+border-top-left-radius: 8px;
+}
+
+.tabs li:nth-child(2) a {
+	z-index: 2;
+}
+
+.tabs li:last-child a {
+	z-index: 1;
+  -webkit-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
+	        box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
+  -webkit-border-top-right-radius: 8px;
+-moz-border-radius-topright: 8px;
+border-top-right-radius: 8px;
+}
+
+ul.tabs li a:hover {
+	margin: 35px 0 0 0;
+	padding: 10px 0 5px 0;
+}
+
+ul.tabs li a.active {
+	margin: 30px 0 0 0;
+	padding: 10px 0 10px 0;
+	background: #545f60;
+	color: #c8db18;
+	/*color: #ff6831;*/
+	z-index: 4;
+	outline: none;
+}
+
+.group:before,
+.group:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.group:after {
+  clear: both;
+}
+
+.chatConv {
+  overflow-y: scroll;
+  width: 42vw;
+  height: 200px;
+  margin: 0 auto;
+  background: #545f60;
+-webkit-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
+   	   -moz-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
+   	        box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
+  -webkit-border-bottom-right-radius: 8px;
+-webkit-border-bottom-left-radius: 8px;
+-moz-border-radius-bottomright: 8px;
+-moz-border-radius-bottomleft: 8px;
+border-bottom-right-radius: 8px;
+border-bottom-left-radius: 8px;
+}
+
+p {
+  font-family: 'Open Sans', sans-serif;
+  padding: 30px 40px;
+  color: #ffffff;
+  line-height: 26px;
+  font-size: 18px;
+  margin: 0;
+}
+
+#window1 {
+  
+}
+#window2 {
+  
+}
+#window3 {
+  
+}
+
+.chatMessage {
+  padding: 10px 0;
+}
+
+#message-to-send {
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  padding: 10px;
+  font: 14px/22px Arial, sans-serif;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  resize: none;
+}
+
+button {
+  float: right;
+  color: #c8db18;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: rgb(130, 134, 179);
+}
+
+.user-list {
+  float: right;
+  width: 22vw;
+}
