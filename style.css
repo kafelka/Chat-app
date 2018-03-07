@@ -3,9 +3,9 @@
   margin: 0;
 }
 
-
 .container {
   width: 70vw;
+  height: 66vh;
   margin: 2vw auto;
   background: #6D7993;
   color: white;
@@ -194,43 +194,97 @@ button {
 
 img {
   float: left;
-  margin-right: 30px;
+  height: 45px;
+  width: 45px;
+  margin-right: 20px;
 }
 
 .userInfo {
   float: left;
-  margin-right: 50px;
 }
 
 .user {
-  width: 100%;
+width: 100%;
 height: 50px;
 margin-bottom: 20px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+}
+
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+  .container {
+    width: 100%;
+    height: 80vh;
+    margin: 0 auto;
+  }
+  header, footer {
+    height: 8%;
+  }
+  section, .user-list {
+    height: 84%;
+  }
+  section {
+    box-sizing: border-box;
+    width: 60%;
+    margin: 0 5px;
+  }
+  ul.tabs {
+    width: 100%;
+    margin: 0 auto;
+  }
+  ul.tabs li {	
+    float: left;
+    width: 33.33%;
+  }
+  .chatConv {  
+    width: 100%;
+    height: 65%;
+    margin: 0 auto;
+  }
+  .user-list {
+    width: 35%;
+  }
+  img {
+    height: 25px;
+    width: 25px;
+  }
+  .status {
+    display: none;
+  }
+  .name {
+    font-size: .85em;
+  }
 }
 
 
 @media screen and (max-width: 480px) {
   .container {
-    flex-direction: column;
+    width: 100%;
+    height: 80vh;
+    margin: 0;
   }
   section {
-    width: 68vw;
+    box-sizing: border-box;
+    width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
   }
   ul.tabs {
-    width: 100%;
+    width: 98%;
     height: 50px;
-    margin: 0 5px;
+    margin: 0 auto;
     list-style: none;
     overflow: hidden;
+    background-color: red;
     padding: 0;
     display: flex;
   }
   ul.tabs li {	
     float: left;
-    width: 22.67vw;
+    width: 33.33%;
   }
   .user-list {
     display: none;
@@ -243,19 +297,18 @@ margin-bottom: 20px;
     flex-wrap: wrap;
   }
   .chatConv {  
-    width: 68vw;
+    width: 98%;
     height: 200px;
-    margin: 0 5px;
+    margin: 0 auto;
   }
-  #message-to-send {
-    margin: 0 5px;
-    padding: 5px;
+  .chatMessage {
+    width: 98%;
+    margin: 0 auto;
     margin-bottom: 5px;
   }
   button {
-    margin: 0;
+    margin-right: 5px;
   }
 }
 
-@media screen and (min-width: 481px) and (max-width: 767px) {
-}
+
