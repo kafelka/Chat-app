@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible">
   <link rel="stylesheet" href="style.css">
   <title>Document</title>
 </head>
@@ -16,51 +15,52 @@
         <span class="menu2"><!--mobile user list --></span>
       </h1>
     </header>
-    <section>
-      <ul class="tabs group">
-        <li><a class="active" href="#chatroom1" data-toggle="tab">chat 1</a></li>
-        <li><a href="#chatroom2" data-toggle="tab">chat 2</a></li>
-        <li><a href="#chatroom3" data-toggle="tab">chat 3</a></li>
-      </ul>
-      <div class="chatConv">
-        <p id="window1">chat conversation 1</p>
-        <p id="window2">chat conversation 2</p>
-        <p id="window3">chat conversation 3</p>
+    <main>
+      <div class="section">
+        <ul class="tabs group">
+          <li><a class="active" href="#chatroom1" data-toggle="tab">chat 1</a></li>
+          <li><a href="#chatroom2" data-toggle="tab">chat 2</a></li>
+          <li><a href="#chatroom3" data-toggle="tab">chat 3</a></li>
+        </ul>
+        <div class="chatConv">
+          <p id="window1">chat conversation 1</p>
+          <p id="window2">chat conversation 2</p>
+          <p id="window3">chat conversation 3</p>
+        </div>
+        <div class="chatMessage">
+          <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
+          <button>Send</button>
+        </div>
       </div>
-      <div class="chatMessage">
-        <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
-        <button>Send</button>
-      </div>
-    </section>
 
-    <div class="user-list">
-      <ul class="list">
-        <li class="user">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
-          <div class="userInfo">
-            <div class="name">Paul Dolan</div>
-            <div class="status">online</div>
-          </div>
-        </li>
-        <li class="user">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
-          <div class="userInfo">
-            <div class="name">Cristina Pine</div>
-            <div class="status">online</div>
-          </div>
-        </li>
-        <li class="user">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
-          <div class="userInfo">
-            <div class="name">Tony Freeman</div>
-            <div class="status">offline</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <footer>
-      copyright bla bla
+      <div class="user-list">
+        <ul class="list">
+          <li class="user">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
+            <div class="userInfo">
+              <div class="name">Paul</div>
+              <div class="status">online</div>
+            </div>
+          </li>
+          <li class="user">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
+            <div class="userInfo">
+              <div class="name">Cristina</div>
+              <div class="status">online</div>
+            </div>
+          </li>
+          <li class="user">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
+            <div class="userInfo">
+              <div class="name">Tony</div>
+              <div class="status">offline</div>
+            </div>
+          </li>
+        </ul>
+      </div>      
+   </main>
+   <footer>
+    copyright bla bla
     </footer>
   </div>
 </body>

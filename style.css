@@ -14,29 +14,58 @@
   flex-wrap: wrap;
 }
 
-header {
+header, footer {
   width: 100%;
   margin: 10px;
   color: #c8db18;
 }
 
-section {
-  width: 42vw;
-  margin-left: 10px;
+footer {
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
+main {
+  background: yellow;
+  height: 80%;
+  width: 100%;
+  display: flex;
+}
+
+.section {
+  background: pink;
+  width: 60%;
+  margin: 5px auto;
+}
+
+.user-list {
+  box-sizing: border-box;
+  width: 35%;
+  box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
+  margin: 5px auto;
+}
+
+.list {
+  box-sizing: border-box;
+  height: 100%;
+  list-style: none;
+  padding: 20px;
+  background-color: #96858F;
+  border-radius: 5px;
+} 
+
 ul.tabs {
-  width: 42vw;
-  height: 50px;
-  margin: 0 auto;
+  width: 100%;
+  height: 10%;
+  /* margin: 0 auto; */
   list-style: none;
   overflow: hidden;
-  padding: 0;
+  /* padding: 0; */
 }
 
 ul.tabs li {	
   float: left;
-  width: 14vw;
+  width: 33.33%;
 }
 
 ul.tabs li a {
@@ -49,7 +78,6 @@ ul.tabs li a {
   font-size: 1.2em;
   text-align: center;	
   text-decoration: none;
-  color: black;
   background: #96858F;
   color: #D5D5D5;
   -webkit-box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.4);
@@ -95,7 +123,6 @@ ul.tabs li a.active {
   background: #9099A2;
   color: white;
   z-index: 4;
-  outline: none;
 }
 
 .group:before,
@@ -110,9 +137,9 @@ ul.tabs li a.active {
 
 .chatConv {
   overflow-y: scroll;
-  width: 42vw;
-  height: 200px;
-  margin: 0 auto;
+  /* width: 100%; */
+  height: 65%;
+  /* margin: 0 auto; */
   background: #9099A2;
   -webkit-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
     -moz-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
@@ -128,10 +155,9 @@ ul.tabs li a.active {
 p {
   font-family: 'Open Sans', sans-serif;
   padding: 15px;
-  color: #ffffff;
+  color: #fff;
   line-height: 26px;
   font-size: 18px;
-  margin: 0;
 }  
 
 #window1 {
@@ -152,7 +178,6 @@ p {
   border: none;
   padding: 10px;
   font: 14px/22px Arial, sans-serif;
-  margin-bottom: 5px;
   border-radius: 5px;
   resize: none;
 }
@@ -169,18 +194,6 @@ button {
   margin: 0 5px;
 }
 
-.user-list {
-  width: 22vw;
-  margin: 0 auto;
-}
-
-.list {
-  height: 90%;
-  list-style: none;
-  padding: 20px;
-  background-color: #96858F;
-  border-radius: 5px;
-} 
 
 /* .clearfix:after {
   visibility: hidden;
@@ -194,8 +207,8 @@ button {
 
 img {
   float: left;
-  height: 45px;
-  width: 45px;
+  height: 100%;
+  width: auto;
   margin-right: 20px;
 }
 
@@ -216,7 +229,7 @@ margin-bottom: 20px;
 @media screen and (min-width: 481px) and (max-width: 767px) {
   .container {
     width: 100%;
-    height: 80vh;
+    height: 100vh;
     margin: 0 auto;
   }
   header, footer {
@@ -227,7 +240,7 @@ margin-bottom: 20px;
   }
   section {
     box-sizing: border-box;
-    width: 60%;
+    width: 70%;
     margin: 0 5px;
   }
   ul.tabs {
@@ -240,15 +253,27 @@ margin-bottom: 20px;
   }
   .chatConv {  
     width: 100%;
-    height: 65%;
+    height: 71%;
     margin: 0 auto;
   }
+  .chatMessage {
+    width: 98vw;
+  }
+  button {
+
+  }
   .user-list {
-    width: 35%;
+    margin-top: 10px;
+    width: 25%;
+    height: 66.3%;
+  }
+  .list {
+    padding: 20px 10px;
   }
   img {
     height: 25px;
     width: 25px;
+    margin-right: 10px;
   }
   .status {
     display: none;
