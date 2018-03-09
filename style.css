@@ -55,6 +55,7 @@ main {
 } 
 
 ul.tabs {
+  background-color: red;
   width: 100%;
   height: 10%;
   /* margin: 0 auto; */
@@ -114,7 +115,7 @@ ul.tabs li a {
 
 ul.tabs li a:hover {
   margin: 5px 0 0 0;
-  padding: 10px 0 5px 0;
+  padding: 20px 0 5px 0;
 }
 
 ul.tabs li a.active {
@@ -207,8 +208,8 @@ button {
 
 img {
   float: left;
-  height: 100%;
-  width: auto;
+  height: 45px;
+  width: 45px;
   margin-right: 20px;
 }
 
@@ -226,60 +227,39 @@ margin-bottom: 20px;
 }
 
 
-@media screen and (min-width: 481px) and (max-width: 767px) {
+@media screen and (min-width: 481px) and (max-width: 800px) {
   .container {
     width: 100%;
     height: 100vh;
     margin: 0 auto;
   }
-  header, footer {
-    height: 8%;
-  }
-  section, .user-list {
-    height: 84%;
-  }
-  section {
-    box-sizing: border-box;
+  .section {
     width: 70%;
-    margin: 0 5px;
+  }
+  .user-list {
+    width: 25%;
   }
   ul.tabs {
-    width: 100%;
-    margin: 0 auto;
+    height: 7%;
   }
-  ul.tabs li {	
-    float: left;
-    width: 33.33%;
-  }
-  .chatConv {  
-    width: 100%;
-    height: 71%;
-    margin: 0 auto;
+  .chatConv {
+    height: 77%;
   }
   .chatMessage {
     width: 98vw;
   }
-  button {
-
-  }
   .user-list {
-    margin-top: 10px;
-    width: 25%;
-    height: 66.3%;
+    height: 83%;
   }
   .list {
     padding: 20px 10px;
   }
   img {
-    height: 25px;
     width: 25px;
-    margin-right: 10px;
+    height: 25px;
   }
   .status {
     display: none;
-  }
-  .name {
-    font-size: .85em;
   }
 }
 
@@ -287,52 +267,30 @@ margin-bottom: 20px;
 @media screen and (max-width: 480px) {
   .container {
     width: 100%;
-    height: 80vh;
-    margin: 0;
-  }
-  section {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
+    height: 100vh;
+    margin: 0 auto;
   }
   ul.tabs {
-    width: 98%;
-    height: 50px;
-    margin: 0 auto;
-    list-style: none;
-    overflow: hidden;
-    background-color: red;
-    padding: 0;
-    display: flex;
+    height: 10%;
   }
-  ul.tabs li {	
-    float: left;
-    width: 33.33%;
+  .chatConv {
+    height: 65%;
   }
   .user-list {
     display: none;
   }
-  p { 
-    padding: 5px;
-  }
-  footer {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .chatConv {  
-    width: 98%;
-    height: 200px;
-    margin: 0 auto;
+  .section {
+    width: 100%;
+    margin: 5px;
   }
   .chatMessage {
-    width: 98%;
-    margin: 0 auto;
-    margin-bottom: 5px;
+    width: 100%;
   }
   button {
-    margin-right: 5px;
+    margin-top: 5px;
+  } 
+  ul.tabs li a {
+    height: 35px;
   }
 }
 
