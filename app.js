@@ -20,11 +20,12 @@ msgToSend.addEventListener("keyup", function(e) {
 });
 
 function sendMessage() {
-  if (msgToSend.value != "") {
+  if (msgToSend.value.trim() != "") {
     const activeTab = document.querySelector(".active");
     const activeChat = document.querySelector("#" + activeTab.dataset.toggle + " ul");
-    console.log(activeChat);
-    addMessage(activeChat, "16:05", "Jenien", msgToSend.value);
+    let time = ((new Date().toLocaleTimeString()));
+    addMessage(activeChat, time, "Jenien", msgToSend.value.replace(/</g, "&#60")); //check if this is enough
+    activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight;
     msgToSend.value = "";
   }
 };
