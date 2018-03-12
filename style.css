@@ -27,10 +27,10 @@ footer {
 }
 
 main {
+  display: none;
   background: yellow;
   height: 80%;
   width: 100%;
-  display: flex;
 }
 
 .section {
@@ -181,7 +181,7 @@ p {
   resize: none;
 }
 
-.sendBtn {
+#sendBtn {
   float: right;
   color: #c8db18;
   font-size: 1em;
@@ -192,7 +192,6 @@ p {
   background: #6D7993;
   margin: 0 5px;
 }
-
 
 /* .clearfix:after {
   visibility: hidden;

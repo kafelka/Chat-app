@@ -1,6 +1,19 @@
 const chatTab = document.querySelectorAll(".tabs li a");
 const sendBtn = document.querySelector("#sendBtn");
 const msgToSend = document.querySelector("#message-to-send");
+const loginBtn = document.querySelector(".form button");
+const nick = document.querySelector(".registerForm input");
+
+
+loginBtn.addEventListener("click", function loginToChat() {
+  //validate nick value
+  if (nick.value.trim() != "") {
+    document.querySelector("main").style.display = "flex";
+    document.querySelector(".login").style.display = "none";
+  } else {
+    //show error message
+  }
+});
 
 
 chatTab.forEach(x => x.addEventListener("click", function toggleChatWindow() {
@@ -12,6 +25,7 @@ chatTab.forEach(x => x.addEventListener("click", function toggleChatWindow() {
   document.querySelector("#" + this.dataset.toggle).style.display = "block";
 }));
 
+
 sendBtn.addEventListener("click", sendMessage);
 msgToSend.addEventListener("keyup", function(e) {
   if (e.which == 13) { //e.keyCode
@@ -19,16 +33,18 @@ msgToSend.addEventListener("keyup", function(e) {
   }
 });
 
+
 function sendMessage() {
-  if (msgToSend.value.trim() != "") {
+  if (msgToSend.value.trim() != "") { //trim = removing whitespace
     const activeTab = document.querySelector(".active");
     const activeChat = document.querySelector("#" + activeTab.dataset.toggle + " ul");
     let time = ((new Date().toLocaleTimeString()));
-    addMessage(activeChat, time, "Jenien", msgToSend.value.replace(/</g, "&#60")); //check if this is enough
+    addMessage(activeChat, time, nick.value, msgToSend.value.replace(/</g, "&#60")); //check if this is enough
     activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight;
     msgToSend.value = "";
   }
 };
+
 
 function addMessage(convUl, time, nick, msg) {
   const li = `
@@ -38,7 +54,7 @@ function addMessage(convUl, time, nick, msg) {
     <span>${msg}</span>
   </li>
   `
-  convUl.insertAdjacentHTML('beforeend', li);
+  convUl.insertAdjacentHTML('beforeend', li); //
 };
 
 
