@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 pip install Flask
 
-FLASK_APP=chat.py flask run
+python chat.py
