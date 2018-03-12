@@ -181,7 +181,7 @@ p {
   resize: none;
 }
 
-button {
+.sendBtn {
   float: right;
   color: #c8db18;
   font-size: 1em;
@@ -219,6 +219,64 @@ img {
 width: 100%;
 height: 50px;
 margin-bottom: 20px;
+}
+
+.login {
+  background: #6D7993;
+  height: 80%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  background: #FFFFFF;
+  height: 33%;
+  width: 30%;
+  padding: 7%;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.form input {
+  box-sizing: border-box;
+  width: 100%;
+  outline: 0;
+  background: #f2f2f2;
+  border: 0;
+  padding: 15px;
+  font-size: 0.9em;
+}
+
+.form button {
+  width: 100%;
+  text-transform: uppercase;
+  outline: 0;
+  background: #c8db18;
+  border: 0;
+  border-radius: 4px;
+  padding: 15px;
+  color: rgb(102, 111, 131);
+  font-size: 0.9em;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+.form button:hover,.form button:active,.form button:focus {
+  background: #aabb14;
+}
+
+.form .message {
+  color: #b3b3b3;
+  font-size: 0.7em;
+}
+
+.form .message a {
+  color: #6D7993;
+  text-decoration: none;
 }
 
 @media screen and (min-width: 481px) and (max-width: 800px) {
@@ -280,7 +338,7 @@ margin-bottom: 20px;
   .chatInput {
     width: 100%;
   }
-  button {
+  .sendBtn {
     margin-top: 5px;
   } 
   ul.tabs li a {
