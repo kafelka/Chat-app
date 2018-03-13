@@ -212,16 +212,12 @@ p {
   height: 0;
 } */
 
-ul.tabs.channel {
-  /* background-color: green; */
-  background-color: #6D7993;
-}
 
-ul.channel li {
+ul.channelTabs li {
   width: 50%;
 }
 
-ul.tabs.channel li a.active {
+ul.channelTabs li a.active {
   background-color: #96858F;
 }
 
@@ -240,9 +236,10 @@ img {
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
-.channelStyling {
+.channel {
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
@@ -250,10 +247,6 @@ img {
   align-items: center;
 }
 
-.channelInfo .name {
-  background-color: red;
-  font-weight: bold; 
-}
 
 .login {
   background: #6D7993;

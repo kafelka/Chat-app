@@ -1,5 +1,5 @@
 const chatTab = document.querySelectorAll(".tabs.group li a");
-const userlistTab = document.querySelectorAll(".tabs.channel li a");
+const userlistTab = document.querySelectorAll(".channelTabs li a");
 const sendBtn = document.querySelector("#sendBtn");
 const msgToSend = document.querySelector("#message-to-send");
 const loginBtn = document.querySelector(".form button");
@@ -28,8 +28,8 @@ chatTab.forEach(x => x.addEventListener("click", function toggleChatWindow() {
 }));
 
 userlistTab.forEach(x => x.addEventListener("click", function toggleUserlistWindow() {
-  const activeTab2 = document.querySelector(".channel .active");
-
+  const activeTab2 = document.querySelector(".channelTabs .active");
+ 
   document.querySelector("#" + activeTab2.dataset.toggle).style.display = "none";
   activeTab2.classList.remove("active");
   this.classList.add("active");
@@ -39,7 +39,7 @@ userlistTab.forEach(x => x.addEventListener("click", function toggleUserlistWind
 
 sendBtn.addEventListener("click", sendMessage);
 msgToSend.addEventListener("keyup", function(e) {
-  if (e.which == 13) { //e.keyCode
+  if (e.which == 13) { //e.keyCode  13="Enter"
     sendMessage();
   }
 });
@@ -51,7 +51,7 @@ function sendMessage() {
     const activeChat = document.querySelector("#" + activeTab.dataset.toggle + " ul");
     let time = ((new Date().toLocaleTimeString()));
     addMessage(activeChat, time, nick.value, msgToSend.value.replace(/</g, "&#60")); //check if this is enough
-    activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight;
+    activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight; //scroll to the bottom of div
     msgToSend.value = "";
   }
 };
