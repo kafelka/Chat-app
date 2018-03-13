@@ -1,8 +1,10 @@
-const chatTab = document.querySelectorAll(".tabs li a");
+const chatTab = document.querySelectorAll(".tabs.group li a");
+const userlistTab = document.querySelectorAll(".tabs.channel li a");
 const sendBtn = document.querySelector("#sendBtn");
 const msgToSend = document.querySelector("#message-to-send");
 const loginBtn = document.querySelector(".form button");
 const nick = document.querySelector(".registerForm input");
+const webserviceURL = "http://127.0.0.1:5000/";
 
 
 loginBtn.addEventListener("click", function loginToChat() {
@@ -21,6 +23,15 @@ chatTab.forEach(x => x.addEventListener("click", function toggleChatWindow() {
 
   document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
   activeTab.classList.remove("active");
+  this.classList.add("active");
+  document.querySelector("#" + this.dataset.toggle).style.display = "block";
+}));
+
+userlistTab.forEach(x => x.addEventListener("click", function toggleUserlistWindow() {
+  const activeTab2 = document.querySelector(".channel .active");
+
+  document.querySelector("#" + activeTab2.dataset.toggle).style.display = "none";
+  activeTab2.classList.remove("active");
   this.classList.add("active");
   document.querySelector("#" + this.dataset.toggle).style.display = "block";
 }));
@@ -57,9 +68,12 @@ function addMessage(convUl, time, nick, msg) {
   convUl.insertAdjacentHTML('beforeend', li); //
 };
 
-
-
-
+function getChannelUsers(channel) {
+  const url = webserviceURL + "users/" + channel;
+  //fetch userlist from above URL
+  //set userlist div with content of above fetch
+  //similar to adding new message to chat
+}
 
 
 

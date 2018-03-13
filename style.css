@@ -19,50 +19,57 @@ header, footer {
   width: 100%;
   margin: 10px;
   color: #c8db18;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 footer {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: bold;
+}
+
+h1 {
+  margin-left: 10px;
 }
 
 main {
   display: none;
-  background: yellow;
+  background-color: #6D7993;
   height: 80%;
   width: 100%;
 }
 
 .section {
-  background: pink;
+  background-color: #6D7993;
   width: 60%;
   margin: 5px auto;
 }
 
 .user-list {
   box-sizing: border-box;
+  border-radius: 0 0 5px 5px;
   width: 35%;
   box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
   margin: 5px auto;
 }
 
-.list {
+.list, .list2 {
   box-sizing: border-box;
-  height: 100%;
+  height: 90%;
   list-style: none;
   padding: 20px;
   background-color: #96858F;
-  border-radius: 5px;
+  border-radius: 0 0 5px 5px;
 } 
 
 ul.tabs {
-  background-color: red;
+  /* background-color: red; */
+  background-color: #6D7993;
   width: 100%;
   height: 10%;
-  /* margin: 0 auto; */
   list-style: none;
   overflow: hidden;
-  /* padding: 0; */
 }
 
 ul.tabs li {	
@@ -78,10 +85,11 @@ ul.tabs li a {
   padding: 10px 0 0 0;
   font-family: 'Open Sans', sans-serif;
   font-size: 1em;
+  font-weight: bold;
   text-align: center;	
   text-decoration: none;
-  background: #96858F;
-  color: #D5D5D5;
+  background: #D5D5D5;
+  color: #96858F;
   -webkit-box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.4);
 	   -moz-box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.4);
 	        box-shadow: 8px 12px 25px 2px rgba(0,0,0,0.4);
@@ -121,7 +129,7 @@ ul.tabs li a:hover {
 
 ul.tabs li a.active {
   margin: 0;
-  padding: 15px 0;
+  padding: 15px 0 15px;
   background: #9099A2;
   color: white;
   z-index: 4;
@@ -139,9 +147,7 @@ ul.tabs li a.active {
 
 .chatConv {
   overflow-y: scroll;
-  /* width: 100%; */
   height: 65%;
-  /* margin: 0 auto; */
   background: #9099A2;
   -webkit-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
     -moz-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
@@ -163,6 +169,10 @@ p {
 }  
 
 #chatroom2, #chatroom3 {
+  display: none;
+}
+
+#users2 {
   display: none;
 }
 
@@ -190,7 +200,7 @@ p {
   cursor: pointer;
   font-weight: bold;
   background: #6D7993;
-  margin: 0 5px;
+  margin: 5px 5px 0 0;
 }
 
 /* .clearfix:after {
@@ -202,6 +212,18 @@ p {
   height: 0;
 } */
 
+ul.tabs.channel {
+  /* background-color: green; */
+  background-color: #6D7993;
+}
+
+ul.channel li {
+  width: 50%;
+}
+
+ul.tabs.channel li a.active {
+  background-color: #96858F;
+}
 
 img {
   float: left;
@@ -210,14 +232,27 @@ img {
   margin-right: 20px;
 }
 
-.userInfo {
+.userInfo, .channelInfo {
   float: left;
 }
 
 .user {
-width: 100%;
-height: 50px;
-margin-bottom: 20px;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.channelStyling {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.channelInfo .name {
+  background-color: red;
+  font-weight: bold; 
 }
 
 .login {
@@ -341,8 +376,9 @@ margin-bottom: 20px;
     margin-top: 5px;
   } 
   ul.tabs li a {
-    height: 35px;
+    padding-bottom: 5px;
+  }
+  ul.tabs li a.active {
+    padding-bottom: 20px;
   }
 }
-
-
