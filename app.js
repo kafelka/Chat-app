@@ -12,6 +12,9 @@ loginBtn.addEventListener("click", function loginToChat() {
   if (nick.value.trim() != "") {
     document.querySelector("main").style.display = "flex";
     document.querySelector(".login").style.display = "none";
+    //get user list so that it is already loaded when user logs in
+    const activeTab = document.querySelector(".active");
+    getUserList(activeTab.innerText);
   } else {
     //show error message
   }
@@ -25,6 +28,8 @@ chatTab.forEach(x => x.addEventListener("click", function toggleChatWindow() {
   activeTab.classList.remove("active");
   this.classList.add("active");
   document.querySelector("#" + this.dataset.toggle).style.display = "block";
+  //update user list on channel change
+  getUserList(this.innerText); 
 }));
 
 userlistTab.forEach(x => x.addEventListener("click", function toggleUserlistWindow() {
@@ -68,27 +73,75 @@ function addMessage(convUl, time, nick, msg) {
   convUl.insertAdjacentHTML('beforeend', li); //
 };
 
-function getChannelUsers(channel) {
+function getUserList(channel) {
   const url = webserviceURL + "users/" + channel;
   //fetch userlist from above URL
   //set userlist div with content of above fetch
   //similar to adding new message to chat
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('GET', url);
+
+  xhr.onload = function() {
+    if(this.status == 200) {
+      
+      const apiUsers = JSON.parse(this.responseText);
+      let output = "";
+      apiUsers["users"].forEach(function(nick){
+        output += `
+        <li class="user">
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
+          <div class="userInfo">
+            <div class="name">${nick}</div>
+            <div class="status">online</div>
+          </div>
+        </li>
+      `
+      });
+      document.getElementById("users1").innerHTML = output;
+    }
+  }
+  xhr.send();
 }
 
+function getChannelList() {
+  const url = webserviceURL + "channels";
+  const xhr = new XMLHttpRequest();
 
+  xhr.open('GET', url);
 
- 
+  xhr.onload = function() {
+      // click channels -> get a list of channels -> insert into channels ul
+    console.log(this.responseText);
+  }
+  xhr.send();
+}
 
+function getChannels(user) {
+  const url = webserviceURL + "channels/" + user;
+  const xhr = new XMLHttpRequest();
 
+  xhr.open('GET', url);
 
+  xhr.onload = function() {
+      // click login -> display chats from api list and display them in the main chat window
+    console.log(this.responseText);
+  }
+  xhr.send();
+}
 
+function getMessages(channel) {
+  const url = webserviceURL + "messages/" + channel;
+  const xhr = new XMLHttpRequest();
 
+  xhr.open('GET', url);
 
-
-
-
-
-
+  xhr.onload = function() {
+      // later
+    console.log(this.responseText);
+  }
+  xhr.send();
+}
 
 // (function($) {
 
