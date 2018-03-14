@@ -104,6 +104,8 @@ function getUserList(channel) {
   xhr.send();
 }
 
+document.querySelector("[data-toggle='channels']").addEventListener("click", getChannelList);
+
 function getChannelList() {
   const url = webserviceURL + "channels";
   const xhr = new XMLHttpRequest();
@@ -111,8 +113,23 @@ function getChannelList() {
   xhr.open('GET', url);
 
   xhr.onload = function() {
-      // click channels -> get a list of channels -> insert into channels ul
-    console.log(this.responseText);
+    if(this.status == 200) {
+      console.log(this.responseText);
+      const apiChannels = JSON.parse(this.responseText);
+      let output = "";
+      apiChannels["channels"].forEach(function(chan){
+        output += `
+          <li class="channel">
+            <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/17842-200.png" alt="avatar"/>
+            <div class="channelInfo">
+              <div class="name">${chan}</div>
+            </div>
+          </li>
+          `
+        //     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/1190378-200.png" alt="avatar" />
+    });
+    document.getElementById("channels").innerHTML = output;
+    }
   }
   xhr.send();
 }

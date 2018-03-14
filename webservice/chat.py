@@ -16,12 +16,12 @@ def login():
 
 @app.route('/channels')
 def get_channels():
-    return jsonify({'channels': ['Channel1', 'Channel2', 'Channel3', 'Channel4']})
+    return jsonify({'channels': ['General', 'Javascript', 'London', 'Music']})
 
 
 @app.route('/channels/<user>')
 def get_channel_list(user):
-    return jsonify({'channels': ['Channel1', 'Channel3']})
+    return jsonify({'channels': ['General', 'Cinema']})
 
 
 @app.route('/users/<channel>',  methods=['GET', 'PUT', 'DELETE'])
