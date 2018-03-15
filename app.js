@@ -153,41 +153,46 @@ function getChannels(user) {
       console.log(this.responseText);
       const apiChannels = JSON.parse(this.responseText);
       let tabsOutput = "";
-      let conversationOutput = "";
+      // let conversationOutput = "";
       
-      apiChannels["channels"].forEach(function(chan){
-        if(chan === apiChannels["channels"][0]) {
+      apiChannels["channels"].forEach(function(chan){ //chan = channels from json
+        const firstChannel = (chan === apiChannels["channels"][0]);
+        if(firstChannel) {
           tabsOutput += `
             <li><a class="active" href="#" data-toggle="${chan}">${chan}</a></li>
            `
-          conversationOutput += `
-            <div class="chatConv" id="${chan}">
-              <ul>
-                <li class="chatMessage">element ${chan}</li>
-              </ul>
-            </div>
-          `
         } else {
           tabsOutput += `
             <li><a href="#" data-toggle="${chan}">${chan}</a></li>
            `
-          conversationOutput += `
-            <div class="chatConv" id="${chan}" style="display: none">
-              <ul>
-                <li class="chatMessage">element testowy</li>
-              </ul>
-            </div>
-          `
         }
+        const cv = new ChatConversation(chan, firstChannel);
+        chatMainWindow.innerHTML += cv.getHTML();
+        getMessages(chan);
     });
     document.querySelector(".tabs").innerHTML = tabsOutput;
     const chatTab = document.querySelectorAll(".tabs.group li a");
-    chatMainWindow.innerHTML = conversationOutput;
+    // chatMainWindow.innerHTML = conversationOutput;
 
     addListenersToChatTabs(chatTab);
     }
   }   
   xhr.send();
+}
+
+class ChatConversation {
+  constructor(name, isVisible) {
+    this.name = name;
+    this.isVisible = isVisible;
+  }
+  getHTML() {
+    const display = this.isVisible ? "" : 'style="display: none"'
+    return `
+      <div class="chatConv" id="${this.name}" ${display}>
+        <ul></ul>
+      </div>
+    `
+  }
 }
 
 function getMessages(channel) {
@@ -197,20 +202,25 @@ function getMessages(channel) {
   xhr.open('GET', url);
 
   xhr.onload = function() {
-      // later
-    console.log(this.responseText);
+    if(this.status == 200) {
+      console.log(this.responseText);
+      const channelMsgs = JSON.parse(this.responseText);
+      const msgList = document.querySelector("#" + channel + " ul");
+      channelMsgs.forEach(function(msg){
+        const msgHTML = `
+          <li class="chatMessage">
+            <span>${msg.timestamp}</span>
+            <span>${msg.user}</span>
+            <span>${msg.message}</span>
+          </li>
+        `
+        msgList.innerHTML += msgHTML;
+      })
+    }
   }
   xhr.send();
 }
 
-
-
-
-
-/* <div class="section">
-<ul class="tabs group">
-</ul>
-</div>*/
 
 
 
