@@ -145,9 +145,13 @@ ul.tabs li a.active {
   clear: both;
 }
 
+.chatMainWindow {
+  height: 65%;
+}
+
 .chatConv {
   overflow-y: scroll;
-  height: 65%;
+  height: 100%;
   background: #9099A2;
   -webkit-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
     -moz-box-shadow: 2px 8px 25px -2px rgba(0,0,0,0.3);
@@ -159,6 +163,7 @@ ul.tabs li a.active {
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
 }
+
 
 p {
   font-family: 'Open Sans', sans-serif;

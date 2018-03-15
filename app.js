@@ -1,10 +1,11 @@
-const chatTab = document.querySelectorAll(".tabs.group li a");
+
 const userlistTab = document.querySelectorAll(".channelTabs li a");
 const sendBtn = document.querySelector("#sendBtn");
 const msgToSend = document.querySelector("#message-to-send");
 const loginBtn = document.querySelector(".form button");
 const nick = document.querySelector(".registerForm input");
 const webserviceURL = "http://127.0.0.1:5000/";
+const chatMainWindow = document.querySelector(".chatMainWindow");
 
 
 loginBtn.addEventListener("click", function loginToChat() {
@@ -36,7 +37,7 @@ function addListenersToChatTabs(tabList) {
   }));
 }
 
-addListenersToChatTabs(chatTab);
+
 
 userlistTab.forEach(x => x.addEventListener("click", function toggleUserlistWindow() {
   const activeTab2 = document.querySelector(".channelTabs .active");
@@ -147,9 +148,45 @@ function getChannels(user) {
   xhr.open('GET', url);
 
   xhr.onload = function() {
-      // click login -> get chats from api list and display them in the main chat window
-    console.log(this.responseText);
-  }
+    // click login -> get chats from api list and display them in the main chat window
+    if(this.status == 200) {
+      console.log(this.responseText);
+      const apiChannels = JSON.parse(this.responseText);
+      let tabsOutput = "";
+      let conversationOutput = "";
+      
+      apiChannels["channels"].forEach(function(chan){
+        if(chan === apiChannels["channels"][0]) {
+          tabsOutput += `
+            <li><a class="active" href="#" data-toggle="${chan}">${chan}</a></li>
+           `
+          conversationOutput += `
+            <div class="chatConv" id="${chan}">
+              <ul>
+                <li class="chatMessage">element ${chan}</li>
+              </ul>
+            </div>
+          `
+        } else {
+          tabsOutput += `
+            <li><a href="#" data-toggle="${chan}">${chan}</a></li>
+           `
+          conversationOutput += `
+            <div class="chatConv" id="${chan}" style="display: none">
+              <ul>
+                <li class="chatMessage">element testowy</li>
+              </ul>
+            </div>
+          `
+        }
+    });
+    document.querySelector(".tabs").innerHTML = tabsOutput;
+    const chatTab = document.querySelectorAll(".tabs.group li a");
+    chatMainWindow.innerHTML = conversationOutput;
+
+    addListenersToChatTabs(chatTab);
+    }
+  }   
   xhr.send();
 }
 
@@ -165,6 +202,34 @@ function getMessages(channel) {
   }
   xhr.send();
 }
+
+
+
+
+
+/* <div class="section">
+<ul class="tabs group">
+</ul>
+</div>*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // (function($) {
 
