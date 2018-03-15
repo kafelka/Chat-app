@@ -8,11 +8,13 @@ const webserviceURL = "http://127.0.0.1:5000/";
 
 
 loginBtn.addEventListener("click", function loginToChat() {
-  //validate nick value
+  //validating nick value
   if (nick.value.trim() != "") {
     document.querySelector("main").style.display = "flex";
     document.querySelector(".login").style.display = "none";
-    //get user list so that it is already loaded when user logs in
+    //getting channels for the user who is logged in
+    getChannels(nick.value.trim());
+    //getting user list so that it is already loaded when user logs in
     const activeTab = document.querySelector(".active");
     getUserList(activeTab.innerText);
   } else {
@@ -20,17 +22,21 @@ loginBtn.addEventListener("click", function loginToChat() {
   }
 });
 
+//
+function addListenersToChatTabs(tabList) {
+  tabList.forEach(x => x.addEventListener("click", function toggleChatWindow() {
+    const activeTab = document.querySelector(".active");
+  
+    document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
+    activeTab.classList.remove("active");
+    this.classList.add("active");
+    document.querySelector("#" + this.dataset.toggle).style.display = "block";
+    //update user list on channel change
+    getUserList(this.innerText); 
+  }));
+}
 
-chatTab.forEach(x => x.addEventListener("click", function toggleChatWindow() {
-  const activeTab = document.querySelector(".active");
-
-  document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
-  activeTab.classList.remove("active");
-  this.classList.add("active");
-  document.querySelector("#" + this.dataset.toggle).style.display = "block";
-  //update user list on channel change
-  getUserList(this.innerText); 
-}));
+addListenersToChatTabs(chatTab);
 
 userlistTab.forEach(x => x.addEventListener("click", function toggleUserlistWindow() {
   const activeTab2 = document.querySelector(".channelTabs .active");
@@ -141,7 +147,7 @@ function getChannels(user) {
   xhr.open('GET', url);
 
   xhr.onload = function() {
-      // click login -> display chats from api list and display them in the main chat window
+      // click login -> get chats from api list and display them in the main chat window
     console.log(this.responseText);
   }
   xhr.send();
