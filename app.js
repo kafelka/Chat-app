@@ -153,10 +153,9 @@ function getChannels(user) {
       console.log(this.responseText);
       const apiChannels = JSON.parse(this.responseText);
       let tabsOutput = "";
-      // let conversationOutput = "";
       
       apiChannels["channels"].forEach(function(chan){ //chan = channels from json
-        const firstChannel = (chan === apiChannels["channels"][0]);
+        const firstChannel = (chan === apiChannels["channels"][0]); //checking if channel is first 
         if(firstChannel) {
           tabsOutput += `
             <li><a class="active" href="#" data-toggle="${chan}">${chan}</a></li>
@@ -166,13 +165,13 @@ function getChannels(user) {
             <li><a href="#" data-toggle="${chan}">${chan}</a></li>
            `
         }
-        const cv = new ChatConversation(chan, firstChannel);
-        chatMainWindow.innerHTML += cv.getHTML();
+        //adding chat div to page HTML so querySelector(msgList) in getMessages finds an element to append messages
+        const chatConvDiv = new ChatConversation(chan, firstChannel);
+        chatMainWindow.innerHTML += chatConvDiv.getHTML();
         getMessages(chan);
     });
     document.querySelector(".tabs").innerHTML = tabsOutput;
     const chatTab = document.querySelectorAll(".tabs.group li a");
-    // chatMainWindow.innerHTML = conversationOutput;
 
     addListenersToChatTabs(chatTab);
     }

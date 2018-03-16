@@ -313,6 +313,8 @@ img {
   text-decoration: none;
 }
 
+
+
 @media screen and (min-width: 481px) and (max-width: 800px) {
   .container {
     width: 100%;
@@ -398,4 +400,14 @@ img {
   .form button {
     margin-top: 30px;
   }
+  /* Only apply this when the window is small. Otherwise, the following
+    case results in extra padding on the left:
+        * Make the window small.
+        * Tap the menu to trigger the active state.
+        * Make the window large again.
+    */
+    /* #layout.active {
+      position: relative;
+      left: 150px;
+  } */
 }
