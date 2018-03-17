@@ -70,11 +70,13 @@ ul.tabs {
   height: 10%;
   list-style: none;
   overflow: hidden;
+  display: flex;
 }
 
 ul.tabs li {	
   float: left;
-  width: 33.33%;
+  /* width: 33.33%; */
+  flex-grow: 1;
 }
 
 ul.tabs li a {
@@ -161,7 +163,7 @@ ul.tabs li a.active {
       -moz-border-radius-bottomright: 8px;
       -moz-border-radius-bottomleft: 8px;
   border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-bottom-left-radius: 0px;
 }
 
 
@@ -182,7 +184,7 @@ p {
 }
 
 .chatInput {
-  padding: 10px 0;
+  /* padding: 10px 0; */
 }
 
 #message-to-send {
@@ -192,7 +194,7 @@ p {
   border: none;
   padding: 10px;
   font: 14px/22px Arial, sans-serif;
-  border-radius: 5px;
+  border-radius: 0 0 8px 8px;
   resize: none;
 }
 
@@ -367,18 +369,34 @@ img {
     margin: 0 auto;
     border-radius: 0;
   }
+  /* main {
+    position: relative;
+  } */
   ul.tabs {
-    height: 9%;
+    height: 10%;
   }
   .chatConv {
     height: 65%;
   }
   .user-list {
-    display: none;
+    /* display: none; */
+    /* -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    margin-left: -90%; */
+    width: 98%;
+    height: 70%;
+    z-index: 999;
+    position: absolute;
+    /* margin: 5% 1%; */
+    box-shadow: none;
   }
   .section {
     width: 100%;
     margin: 5px;
+    display: none;
   }
   .chatInput {
     width: 100%;
@@ -400,14 +418,41 @@ img {
   .form button {
     margin-top: 30px;
   }
-  /* Only apply this when the window is small. Otherwise, the following
-    case results in extra padding on the left:
-        * Make the window small.
-        * Tap the menu to trigger the active state.
-        * Make the window large again.
-    */
-    /* #layout.active {
+  .menu-link {
+    position: fixed;
+    display: block; /* show this only on small screens */
+    top: 10px;
+    right: 10px; /* "#menu width" */
+    background: rgb(92, 103, 128);
+    font-size: 14px; /* change this value to increase/decrease button size */
+    z-index: 10;
+    width: 2em;
+    height: auto;
+    padding: 2.2em 1.6em;
+    border-radius: 5px;
+  }
+  .menu-link:hover,
+  .menu-link:focus {
+      background: #000;
+  }
+  .menu-link span {
       position: relative;
-      left: 150px;
-  } */
+      display: block;
+  }
+  .menu-link span,
+  .menu-link span:before,
+  .menu-link span:after {
+      background-color: #c8db18;
+      width: 100%;
+      height: 0.2em;
+  }
+  .menu-link span:before,
+  .menu-link span:after {
+      position: absolute;
+      margin-top: -0.6em;
+      content: " ";
+  }
+  .menu-link span:after {
+      margin-top: 0.6em;
+  }
 }
