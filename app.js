@@ -221,8 +221,20 @@ function getMessages(channel) {
 }
 
 
-
-
+const menu = document.querySelector(".menu-link");
+menu.addEventListener("click", function showUserChannel() {
+  const userList = document.querySelector(".user-list");
+  const section = document.querySelector(".section");
+  if (userList.classList.contains("slideCenter")) {
+    userList.classList.add("slideRight");
+    userList.classList.remove("slideCenter");
+    section.style.display = "block";
+  } else {
+    userList.classList.remove("slideRight");
+    userList.classList.add("slideCenter");
+    section.style.display = "none";
+  }
+});
 
 
 
