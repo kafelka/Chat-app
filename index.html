@@ -11,48 +11,28 @@
     <header>
       <h1>
         gobble
-        <a href="#" id="userChannel" class="menu-link">
+        <a href="#" id="userChannel" class="mobileMenu">
           <span></span>
         </a>
       </h1>
     </header>
     <main>
       <div class="section">
-        <ul class="tabs group"></ul>
+        <ul class="tabs chatNavigation"></ul>
         <div class="chatMainWindow"></div>
-        <!-- <div class="chatConv" id="chatroom1">
-          <ul>
-            <li class="chatMessage">
-              <span>15:15</span>
-              <span>Nick</span>
-              <span>Message</span>
-            </li>
-            <li class="chatMessage">
-              <span>15:16</span>
-              <span>Nick2</span>
-              <span>Message2</span>
-            </li>
-          </ul>
-        </div> -->
-        <!-- <div class="chatConv" id="chatroom2">
-          <ul></ul>
-        </div>
-        <div class="chatConv" id="chatroom3">
-          <ul></ul>
-        </div> -->
         <div class="chatInput">
-          <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
+          <textarea name="messageToSend" id="messageToSend" placeholder="Type your message" rows="3"></textarea>
           <button id="sendBtn">Send</button>
         </div>
       </div>
 
-      <div class="user-list">
-        <ul class="tabs channelTabs">
-            <li><a class="active" href="#" data-toggle="users1">users</a></li>
-            <li><a href="#" data-toggle="channels">channels</a></li>
+      <div class="usersAndChannels">
+        <ul class="tabs">
+            <li><a class="active" href="#" data-toggle="usersList">users</a></li>
+            <li><a href="#" data-toggle="channelsList">channels</a></li>
         </ul>
-        <ul class="list" id="users1"></ul>
-        <ul class="list2" id="channels">
+        <ul class="items" id="usersList"></ul>
+        <ul class="items" id="channelsList">
           <!-- <li class="channel">
             <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/17842-200.png" alt="avatar"/>
             <div class="channelInfo">
@@ -77,9 +57,7 @@
         <button>login</button>
       </div>
     </div>
-   <footer>
-    copyright bla bla
-    </footer>
+   <footer>copyright bla bla</footer>
   </div>
 
 <script src="app.js"></script>

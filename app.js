@@ -1,12 +1,18 @@
-
-const userlistTab = document.querySelectorAll(".channelTabs li a");
-const sendBtn = document.querySelector("#sendBtn");
-const msgToSend = document.querySelector("#message-to-send");
-const loginBtn = document.querySelector(".form button");
-const nick = document.querySelector(".registerForm input");
 const webserviceURL = "http://127.0.0.1:5000/";
-const chatMainWindow = document.querySelector(".chatMainWindow");
+const nick = document.querySelector(".registerForm input");
+const loginBtn = document.querySelector(".form button");
+const mobileMenu = document.querySelector(".mobileMenu");
+const sendBtn = document.querySelector("#sendBtn");
+const msgToSend = document.querySelector("#messageToSend");
 
+const chatMainWindow = document.querySelector(".chatMainWindow");
+const chatNavigation = document.querySelector(".chatNavigation");
+const usersAndChannelsNavigation = document.querySelectorAll(".usersAndChannels .tabs li a");
+
+
+/* **************
+ * EVENT LISTENERS - CLICK
+ * **************/
 
 loginBtn.addEventListener("click", function loginToChat() {
   //validating nick value
@@ -15,22 +21,51 @@ loginBtn.addEventListener("click", function loginToChat() {
     document.querySelector(".login").style.display = "none";
     //getting channels for the user who is logged in
     getChannels(nick.value.trim());
-    //getting user list so that it is already loaded when user logs in
-    const activeTab = document.querySelector(".active");
-    getUserList(activeTab.innerText);
     if (window.matchMedia('(max-width: 480px)').matches) {
-      document.querySelector(".menu-link").style.display = "block";
+      document.querySelector(".mobileMenu").style.display = "block";
     }
   } else {
     //show error message
   }
 });
 
-//
+usersAndChannelsNavigation.forEach(x => x.addEventListener("click", function toggleUserlistWindow() {
+  const activeTab2 = document.querySelector(".usersAndChannels .tabs .active");
+ 
+  document.querySelector("#" + activeTab2.dataset.toggle).style.display = "none";
+  activeTab2.classList.remove("active");
+  this.classList.add("active");
+  document.querySelector("#" + this.dataset.toggle).style.display = "block";
+}));
+
+// usersAndChannels tabs channelsList
+document.querySelector("[data-toggle='channelsList']").addEventListener("click", getChannelList);
+
+mobileMenu.addEventListener("click", function showUserChannel() {
+  const userList = document.querySelector(".usersAndChannels");
+  const section = document.querySelector(".section");
+  if (userList.classList.contains("slideCenter")) {
+    userList.classList.add("slideRight");
+    userList.classList.remove("slideCenter");
+    section.style.display = "block";
+  } else {
+    userList.classList.remove("slideRight");
+    userList.classList.add("slideCenter");
+    section.style.display = "none";
+  }
+});
+
+sendBtn.addEventListener("click", sendMessage);
+
+msgToSend.addEventListener("keyup", function(e) {
+  if (e.which == 13) { //e.keyCode  13="Enter"
+    sendMessage();
+  }
+});
+
 function addListenersToChatTabs(tabList) {
   tabList.forEach(x => x.addEventListener("click", function toggleChatWindow() {
     const activeTab = document.querySelector(".active");
-  
     document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
     activeTab.classList.remove("active");
     this.classList.add("active");
@@ -40,26 +75,9 @@ function addListenersToChatTabs(tabList) {
   }));
 }
 
-
-
-userlistTab.forEach(x => x.addEventListener("click", function toggleUserlistWindow() {
-  const activeTab2 = document.querySelector(".channelTabs .active");
- 
-  document.querySelector("#" + activeTab2.dataset.toggle).style.display = "none";
-  activeTab2.classList.remove("active");
-  this.classList.add("active");
-  document.querySelector("#" + this.dataset.toggle).style.display = "block";
-}));
-
-
-sendBtn.addEventListener("click", sendMessage);
-msgToSend.addEventListener("keyup", function(e) {
-  if (e.which == 13) { //e.keyCode  13="Enter"
-    sendMessage();
-  }
-});
-
-
+/* **************
+ * SENDING MESSAGES
+ * **************/
 function sendMessage() {
   if (msgToSend.value.trim() != "") { //trim = removing whitespace
     const activeTab = document.querySelector(".active");
@@ -71,7 +89,6 @@ function sendMessage() {
   }
 };
 
-
 function addMessage(convUl, time, nick, msg) {
   const li = `
   <li class="chatMessage">
@@ -82,6 +99,124 @@ function addMessage(convUl, time, nick, msg) {
   `
   convUl.insertAdjacentHTML('beforeend', li); //
 };
+
+/* **************
+ * CLASSES
+ * **************/
+
+class ChatConversation {
+  constructor(name, isVisible) {
+    this.name = name;
+    this.isVisible = isVisible;
+  }
+  getHTML() {
+    const display = this.isVisible ? "" : 'style="display: none"';
+    return `
+      <div class="chatConv" id="${this.name}" ${display}>
+        <ul></ul>
+      </div>
+    `
+  }
+}
+
+class ChatNavigationTab {
+  constructor(name, isActive) {
+    this.name = name;
+    this.isActive = isActive;
+  }
+  getHTML() {
+    const activeConv = this.isActive ? 'class="active"' : "";
+    return `
+     <li><a ${activeConv} href="#" data-toggle="${this.name}">${this.name}</a></li>
+    `
+  }
+}
+
+/* **************
+ * API CALLS
+ * **************/
+function getMessages(channel) {
+  const url = webserviceURL + "messages/" + channel;
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('GET', url);
+
+  xhr.onload = function() {
+    if(this.status == 200) {
+      const channelMsgs = JSON.parse(this.responseText);
+      const msgList = document.querySelector("#" + channel + " ul");
+      channelMsgs.forEach(function(msg){
+        const msgHTML = `
+          <li class="chatMessage">
+            <span>${msg.timestamp}</span>
+            <span>${msg.user}</span>
+            <span>${msg.message}</span>
+          </li>
+        `
+        msgList.innerHTML += msgHTML;
+      })
+    }
+  }
+  xhr.send();
+}
+
+function getChannelList() {
+  const url = webserviceURL + "channels";
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('GET', url);
+
+  xhr.onload = function() {
+    if(this.status == 200) {
+      const apiChannels = JSON.parse(this.responseText);
+      let output = "";
+      apiChannels["channels"].forEach(function(chan){
+        output += `
+          <li class="channel">
+            <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/17842-200.png" alt="avatar"/>
+            <div class="channelInfo">
+              <div class="name">${chan}</div>
+            </div>
+          </li>
+          `
+        //     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/1190378-200.png" alt="avatar" />
+    });
+    document.getElementById("channelsList").innerHTML = output;
+    }
+  }
+  xhr.send();
+}
+
+function getChannels(user) {
+  const url = webserviceURL + "channels/" + user;
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('GET', url);
+
+  xhr.onload = function() {
+    // click login -> get chats from api list and display them in the main chat window
+    if(this.status == 200) {
+      const apiChannels = JSON.parse(this.responseText);
+
+      apiChannels["channels"].forEach(function(channelName){ //chan = channels from json
+        const isFirstChannel = (channelName === apiChannels["channels"][0]); //checking if channel is first 
+        const chatNavTab = new ChatNavigationTab(channelName, isFirstChannel);
+        chatNavigation.innerHTML += chatNavTab.getHTML();
+        //adding chat div to page HTML so querySelector(msgList) in getMessages finds an element to append messages
+        const chatConvDiv = new ChatConversation(channelName, isFirstChannel);
+        chatMainWindow.innerHTML += chatConvDiv.getHTML();
+        getMessages(channelName);
+    });
+    const chatTab = document.querySelectorAll(".chatNavigation li a");
+    addListenersToChatTabs(chatTab);
+
+    //getting user list so that it is already loaded when user logs in
+    const activeTab = document.querySelector(".active");
+    getUserList(activeTab.innerText);
+    }
+  }   
+  xhr.send();
+}
 
 function getUserList(channel) {
   const url = webserviceURL + "users/" + channel;
@@ -108,144 +243,11 @@ function getUserList(channel) {
         </li>
       `
       });
-      document.getElementById("users1").innerHTML = output;
+      document.getElementById("usersList").innerHTML = output;
     }
   }
   xhr.send();
 }
-
-document.querySelector("[data-toggle='channels']").addEventListener("click", getChannelList);
-
-function getChannelList() {
-  const url = webserviceURL + "channels";
-  const xhr = new XMLHttpRequest();
-
-  xhr.open('GET', url);
-
-  xhr.onload = function() {
-    if(this.status == 200) {
-      console.log(this.responseText);
-      const apiChannels = JSON.parse(this.responseText);
-      let output = "";
-      apiChannels["channels"].forEach(function(chan){
-        output += `
-          <li class="channel">
-            <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/17842-200.png" alt="avatar"/>
-            <div class="channelInfo">
-              <div class="name">${chan}</div>
-            </div>
-          </li>
-          `
-        //     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/1190378-200.png" alt="avatar" />
-    });
-    document.getElementById("channels").innerHTML = output;
-    }
-  }
-  xhr.send();
-}
-
-function getChannels(user) {
-  const url = webserviceURL + "channels/" + user;
-  const xhr = new XMLHttpRequest();
-
-  xhr.open('GET', url);
-
-  xhr.onload = function() {
-    // click login -> get chats from api list and display them in the main chat window
-    if(this.status == 200) {
-      console.log(this.responseText);
-      const apiChannels = JSON.parse(this.responseText);
-      let tabsOutput = "";
-      
-      apiChannels["channels"].forEach(function(chan){ //chan = channels from json
-        const firstChannel = (chan === apiChannels["channels"][0]); //checking if channel is first 
-        if(firstChannel) {
-          tabsOutput += `
-            <li><a class="active" href="#" data-toggle="${chan}">${chan}</a></li>
-           `
-        } else {
-          tabsOutput += `
-            <li><a href="#" data-toggle="${chan}">${chan}</a></li>
-           `
-        }
-        //adding chat div to page HTML so querySelector(msgList) in getMessages finds an element to append messages
-        const chatConvDiv = new ChatConversation(chan, firstChannel);
-        chatMainWindow.innerHTML += chatConvDiv.getHTML();
-        getMessages(chan);
-    });
-    document.querySelector(".tabs").innerHTML = tabsOutput;
-    const chatTab = document.querySelectorAll(".tabs.group li a");
-
-    addListenersToChatTabs(chatTab);
-    }
-  }   
-  xhr.send();
-}
-
-class ChatConversation {
-  constructor(name, isVisible) {
-    this.name = name;
-    this.isVisible = isVisible;
-  }
-  getHTML() {
-    const display = this.isVisible ? "" : 'style="display: none"'
-    return `
-      <div class="chatConv" id="${this.name}" ${display}>
-        <ul></ul>
-      </div>
-    `
-  }
-}
-
-function getMessages(channel) {
-  const url = webserviceURL + "messages/" + channel;
-  const xhr = new XMLHttpRequest();
-
-  xhr.open('GET', url);
-
-  xhr.onload = function() {
-    if(this.status == 200) {
-      console.log(this.responseText);
-      const channelMsgs = JSON.parse(this.responseText);
-      const msgList = document.querySelector("#" + channel + " ul");
-      channelMsgs.forEach(function(msg){
-        const msgHTML = `
-          <li class="chatMessage">
-            <span>${msg.timestamp}</span>
-            <span>${msg.user}</span>
-            <span>${msg.message}</span>
-          </li>
-        `
-        msgList.innerHTML += msgHTML;
-      })
-    }
-  }
-  xhr.send();
-}
-
-
-const menu = document.querySelector(".menu-link");
-menu.addEventListener("click", function showUserChannel() {
-  const userList = document.querySelector(".user-list");
-  const section = document.querySelector(".section");
-  if (userList.classList.contains("slideCenter")) {
-    userList.classList.add("slideRight");
-    userList.classList.remove("slideCenter");
-    section.style.display = "block";
-  } else {
-    userList.classList.remove("slideRight");
-    userList.classList.add("slideCenter");
-    section.style.display = "none";
-  }
-});
-
-
-
-
-
-
-
-
 
 
 
