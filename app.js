@@ -18,6 +18,9 @@ loginBtn.addEventListener("click", function loginToChat() {
     //getting user list so that it is already loaded when user logs in
     const activeTab = document.querySelector(".active");
     getUserList(activeTab.innerText);
+    if (window.matchMedia('(max-width: 480px)').matches) {
+      document.querySelector(".menu-link").style.display = "block";
+    }
   } else {
     //show error message
   }

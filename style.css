@@ -64,7 +64,6 @@ main {
 } 
 
 ul.tabs {
-  /* background-color: red; */
   background-color: #6D7993;
   width: 100%;
   height: 10%;
@@ -75,7 +74,6 @@ ul.tabs {
 
 ul.tabs li {	
   float: left;
-  /* width: 33.33%; */
   flex-grow: 1;
 }
 
@@ -254,7 +252,6 @@ img {
   align-items: center;
 }
 
-
 .login {
   background: #6D7993;
   height: 80%;
@@ -316,7 +313,6 @@ img {
 }
 
 
-
 @media screen and (min-width: 481px) and (max-width: 800px) {
   .container {
     width: 100%;
@@ -369,44 +365,39 @@ img {
     margin: 0 auto;
     border-radius: 0;
   }
-  /* main {
-    position: relative;
-  } */
   ul.tabs {
-    height: 10%;
+    height: 11%;
+  }
+  .chatMainWindow {
+    height: 70%;
   }
   .chatConv {
-    height: 65%;
+    height: 98%;
   }
   .user-list{
     margin-right: -98%;
     width: 98%;
-    height: 70%;
+    height: 95%;
     z-index: 999;
-    /* position: absolute; */
     margin-top: 5%;
     box-shadow: none;
   }
-  .slideCenter, .slideRight, slideLeft {
-    /* we specify the transition length for hiding and showing */
+  .slideCenter, .slideRight {
             transition: margin-right .6s ease-in;
     -webkit-transition: margin-right .6s ease-in;
   }
   .slideCenter {
     margin-right: 1%;
-    margin-left: 1%;
   }
   .slideRight {
     margin-right: -98%;
   }
-  .slideLeft {
-    margin-left: -98%;
-  }
   .section {
-    width: 100%;
-    margin: 5px;
+    width: 98%;
+    margin: 2% 1%;
+    transition-property: all;
+    transition-duration: 0.6s;
   }
-
   .chatInput {
     width: 100%;
   }
@@ -429,7 +420,7 @@ img {
   }
   .menu-link {
     position: absolute;
-    display: block; /* show this only on small screens */
+    display: none; 
     top: 10px;
     right: 10px; /* "#menu width" */
     background: rgb(92, 103, 128);
@@ -442,26 +433,26 @@ img {
   }
   .menu-link:hover,
   .menu-link:focus {
-      background: #000;
+      background: rgb(92, 103, 128);
   }
   .menu-link span {
-      position: relative;
-      display: block;
+    position: relative;
+    display: block;
   }
   .menu-link span,
   .menu-link span:before,
   .menu-link span:after {
-      background-color: #c8db18;
-      width: 100%;
-      height: 0.2em;
+    background-color: #c8db18;
+    width: 100%;
+    height: 0.2em;
   }
   .menu-link span:before,
   .menu-link span:after {
-      position: absolute;
-      margin-top: -0.6em;
-      content: " ";
+    position: absolute;
+    margin-top: -0.6em;
+    content: "";
   }
   .menu-link span:after {
-      margin-top: 0.6em;
+    margin-top: 0.6em;
   }
 }
