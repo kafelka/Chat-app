@@ -1,1 +1,4 @@
 .idea
+*.pyc
+
+webservice/chat.db
