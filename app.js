@@ -63,8 +63,9 @@ msgToSend.addEventListener("keyup", function(e) {
   }
 });
 
-function addListenersToChatTabs(tabList) {
-  tabList.forEach(x => x.addEventListener("click", function toggleChatWindow() {
+// function addListenersToChatTabs(tabList) {
+//   tabList.forEach(x => x.addEventListener("click", 
+  function toggleChatWindow() {
     const activeTab = document.querySelector(".active");
     document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
     activeTab.classList.remove("active");
@@ -72,8 +73,9 @@ function addListenersToChatTabs(tabList) {
     document.querySelector("#" + this.dataset.toggle).style.display = "block";
     //update user list on channel change
     getUserList(this.innerText); 
-  }));
-}
+  }
+// ));
+// }
 
 /* **************
  * SENDING MESSAGES
@@ -143,7 +145,7 @@ class ChatNavigationTab {
   getHTML() {
     const activeConv = this.isActive ? 'class="active"' : "";
     return `
-     <li><a ${activeConv} href="#" data-toggle="${this.name}">${this.name}</a></li>
+     <li><a ${activeConv} href="#" onclick="toggleChatWindow()" data-toggle="${this.name}">${this.name}</a></li>
     `
   }
 }
@@ -235,8 +237,8 @@ function getChannels(user) {
         chatMainWindow.innerHTML += chatConvDiv.getHTML();
         getMessages(channelName);
     });
-    const chatTab = document.querySelectorAll(".chatNavigation li a");
-    addListenersToChatTabs(chatTab);
+    // const chatTab = document.querySelectorAll(".chatNavigation li a");
+    // addListenersToChatTabs(chatTab);
 
     //getting user list so that it is already loaded when user logs in
     const activeTab = document.querySelector(".active");
