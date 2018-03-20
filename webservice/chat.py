@@ -67,7 +67,9 @@ def get_messages_since(channel, timestamp):
 
 @app.route('/send/<channel>', methods=['POST'])
 def send_message(channel):
-    pass
+    content = request.get_json(silent=True)
+    print content
+    return ''
 
 
 if __name__ == "__main__":

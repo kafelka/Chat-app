@@ -8,7 +8,7 @@ const msgToSend = document.querySelector("#messageToSend");
 const chatMainWindow = document.querySelector(".chatMainWindow");
 const chatNavigation = document.querySelector(".chatNavigation");
 const usersAndChannelsNavigation = document.querySelectorAll(".usersAndChannels .tabs li a");
-
+const channelList = document.getElementById("channelsList");
 
 /* **************
  * EVENT LISTENERS - CLICK
@@ -55,11 +55,11 @@ mobileMenu.addEventListener("click", function showUserChannel() {
   }
 });
 
-sendBtn.addEventListener("click", sendMessage);
+sendBtn.addEventListener("click", sendMessageAction);
 
 msgToSend.addEventListener("keyup", function(e) {
   if (e.which == 13) { //e.keyCode  13="Enter"
-    sendMessage();
+    sendMessageAction();
   }
 });
 
@@ -78,27 +78,43 @@ function addListenersToChatTabs(tabList) {
 /* **************
  * SENDING MESSAGES
  * **************/
-function sendMessage() {
+function sendMessageAction() {
   if (msgToSend.value.trim() != "") { //trim = removing whitespace
     const activeTab = document.querySelector(".active");
     const activeChat = document.querySelector("#" + activeTab.dataset.toggle + " ul");
-    let time = ((new Date().toLocaleTimeString()));
-    addMessage(activeChat, time, nick.value, msgToSend.value.replace(/</g, "&#60")); //check if this is enough
+    let currentTime = ((new Date().toLocaleTimeString()));
+    const messageText = msgToSend.value.replace(/</g, "&#60");
+    postMessage(activeTab.dataset.toggle, messageText);
+    addMessage(activeChat, currentTime, nick.value, messageText); 
     activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight; //scroll to the bottom of div
     msgToSend.value = "";
   }
 };
 
-function addMessage(convUl, time, nick, msg) {
+function addMessage(convUl, messageTime, nick, msg) {
   const li = `
   <li class="chatMessage">
-    <span>${time}</span>
+    <span>${messageTime}</span>
     <span>${nick}</span>
     <span>${msg}</span>
   </li>
   `
   convUl.insertAdjacentHTML('beforeend', li); //
 };
+
+/* **************
+ * NEW CHANNEL
+ * **************/
+
+ function openChannel(channelName){
+  const chatNavTab = new ChatNavigationTab(channelName, false);
+  chatNavigation.innerHTML += chatNavTab.getHTML();
+  const chatConvDiv = new ChatConversation(channelName, false);
+  chatMainWindow.innerHTML += chatConvDiv.getHTML();
+  getMessages(channelName);
+}
+
+
 
 /* **************
  * CLASSES
@@ -128,6 +144,24 @@ class ChatNavigationTab {
     const activeConv = this.isActive ? 'class="active"' : "";
     return `
      <li><a ${activeConv} href="#" data-toggle="${this.name}">${this.name}</a></li>
+    `
+  }
+}
+
+class ChannelLi {
+  constructor(name) {
+    this.name = name;
+  }
+  getHTML() {
+    return `
+    <li class="channel">
+      <a href="#" onclick="openChannel('${this.name}')">
+        <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/17842-200.png" alt="avatar"/>
+        <div class="channelInfo">
+          <div class="name">${this.name}</div>
+        </div>
+      </a>
+    </li>
     `
   }
 }
@@ -170,18 +204,12 @@ function getChannelList() {
     if(this.status == 200) {
       const apiChannels = JSON.parse(this.responseText);
       let output = "";
-      apiChannels["channels"].forEach(function(chan){
-        output += `
-          <li class="channel">
-            <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/17842-200.png" alt="avatar"/>
-            <div class="channelInfo">
-              <div class="name">${chan}</div>
-            </div>
-          </li>
-          `
+      apiChannels["channels"].forEach(function(channelName){
+        const channelLi = new ChannelLi(channelName);
+        output += channelLi.getHTML();
         //     <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/1190378-200.png" alt="avatar" />
     });
-    document.getElementById("channelsList").innerHTML = output;
+    channelList.innerHTML = output;
     }
   }
   xhr.send();
@@ -198,7 +226,7 @@ function getChannels(user) {
     if(this.status == 200) {
       const apiChannels = JSON.parse(this.responseText);
 
-      apiChannels["channels"].forEach(function(channelName){ //chan = channels from json
+      apiChannels["channels"].forEach(function(channelName){ //chanName = channels from json
         const isFirstChannel = (channelName === apiChannels["channels"][0]); //checking if channel is first 
         const chatNavTab = new ChatNavigationTab(channelName, isFirstChannel);
         chatNavigation.innerHTML += chatNavTab.getHTML();
@@ -249,6 +277,15 @@ function getUserList(channel) {
   xhr.send();
 }
 
+function postMessage(channel, messageText) {
+  const url = webserviceURL + "send/" + channel;
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('POST', url);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({user: nick.value, message: messageText}));
+}
 
 
 
