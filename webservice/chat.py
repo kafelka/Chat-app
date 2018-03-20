@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from datetime import datetime
 import sqlite3
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ def login():
 @app.route('/channels')
 def get_channels():
     c = conn.cursor()
-    channels = [row[0] for row in c.execute('SELECT channel FROM channels ')]
+    channels = [row[0] for row in c.execute('SELECT channel FROM channels')]
 
     return jsonify({'channels': channels})
 
@@ -28,7 +29,9 @@ def get_channels():
 @app.route('/channels/<user>')
 def get_channel_list(user):
     c = conn.cursor()
-    channels = [row[0] for row in c.execute('SELECT channel FROM channel_user_rel WHERE user=? ', (user, ))]
+    channels = [row[0] for row in c.execute('SELECT channel FROM channel_user_rel WHERE user_login=? ', (user, ))]
+    if not channels:
+        channels = ['General']
 
     return jsonify({'channels': channels})
 
@@ -37,7 +40,7 @@ def get_channel_list(user):
 def get_users(channel):
     if request.method == 'GET':
         c = conn.cursor()
-        users = [row[0] for row in c.execute('SELECT user FROM channel_user_rel WHERE channel=? ', (channel, ))]
+        users = [row[0] for row in c.execute('SELECT user_login FROM channel_user_rel WHERE channel=? ', (channel, ))]
 
         return jsonify({'users': users})
     pass
@@ -48,10 +51,11 @@ def get_last_10_messages(channel):
     c = conn.cursor()
     msg = [
         {'user': row[0], 'timestamp': row[1], 'message': row[2]} for row in c.execute(
-            'SELECT user, timestamp, message FROM messages WHERE channel=? ORDER BY timestamp DESC limit 10 ',
+            'SELECT user_login, ts, message FROM messages WHERE channel=? ORDER BY ts DESC limit 10 ',
             (channel, ))]
 
-    return jsonify(msg.reverse())
+    msg.reverse()
+    return jsonify(msg)
 
 
 @app.route('/messages/<channel>/<int:timestamp>')
@@ -59,8 +63,8 @@ def get_messages_since(channel, timestamp):
     c = conn.cursor()
     msg = [
         {'user': row[0], 'timestamp': row[1], 'message': row[2]} for row in c.execute(
-            'SELECT user, timestamp, message FROM messages WHERE channel=? AND timestamp >= ? ORDER BY timestamp',
-            (channel, timestamp))]
+            'SELECT user_login, ts, message FROM messages WHERE channel=? AND ts >= ? ORDER BY ts',
+            (channel, timestamp, ))]
 
     return jsonify(msg)
 
@@ -68,7 +72,11 @@ def get_messages_since(channel, timestamp):
 @app.route('/send/<channel>', methods=['POST'])
 def send_message(channel):
     content = request.get_json(silent=True)
-    print content
+    c = conn.cursor()
+    c.execute(
+        'INSERT INTO messages (channel, user_login, ts, message) VALUES (?, ?, ?, ?)',
+        (channel, content['user'], int(datetime.utcnow().timestamp()), content['message'])
+    )
     return ''
 
 
