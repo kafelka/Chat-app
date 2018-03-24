@@ -38,7 +38,7 @@ usersAndChannelsNavigation.forEach(x => x.addEventListener("click", function tog
   document.querySelector("#" + this.dataset.toggle).style.display = "block";
 }));
 
-// usersAndChannels tabs channelsList
+// usersAndChannels tabs - get channelsList from API
 document.querySelector("[data-toggle='channelsList']").addEventListener("click", getChannelList);
 
 mobileMenu.addEventListener("click", function showUserChannel() {
@@ -65,15 +65,15 @@ msgToSend.addEventListener("keyup", function(e) {
 
 // function addListenersToChatTabs(tabList) {
 //   tabList.forEach(x => x.addEventListener("click", 
-  function toggleChatWindow() {
-    const activeTab = document.querySelector(".active");
-    document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
-    activeTab.classList.remove("active");
-    this.classList.add("active");
-    document.querySelector("#" + this.dataset.toggle).style.display = "block";
-    //update user list on channel change
-    getUserList(this.innerText); 
-  }
+function toggleChatWindow(currentTab) {
+  const activeTab = document.querySelector(".active");
+  document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
+  activeTab.classList.remove("active");
+  currentTab.classList.add("active");
+  document.querySelector("#" + currentTab.dataset.toggle).style.display = "block";
+  //update user list on channel change
+  getUserList(currentTab.innerText); 
+}
 // ));
 // }
 
@@ -109,11 +109,16 @@ function addMessage(convUl, messageTime, nick, msg) {
  * **************/
 
  function openChannel(channelName){
-  const chatNavTab = new ChatNavigationTab(channelName, false);
-  chatNavigation.innerHTML += chatNavTab.getHTML();
-  const chatConvDiv = new ChatConversation(channelName, false);
-  chatMainWindow.innerHTML += chatConvDiv.getHTML();
-  getMessages(channelName);
+  const activeChannels = Array.from(chatMainWindow.children).map(x => x.id);
+  if (activeChannels.includes(channelName)) {
+    //to do close channel 
+  } else {
+    const chatNavTab = new ChatNavigationTab(channelName, false);
+    chatNavigation.innerHTML += chatNavTab.getHTML();
+    const chatConvDiv = new ChatConversation(channelName, false);
+    chatMainWindow.innerHTML += chatConvDiv.getHTML();
+    getMessages(channelName);
+  }
 }
 
 
@@ -145,7 +150,7 @@ class ChatNavigationTab {
   getHTML() {
     const activeConv = this.isActive ? 'class="active"' : "";
     return `
-     <li><a ${activeConv} href="#" onclick="toggleChatWindow()" data-toggle="${this.name}">${this.name}</a></li>
+     <li><a ${activeConv} href="#" onclick="toggleChatWindow(this)" data-toggle="${this.name}">${this.name}</a></li>
     `
   }
 }
