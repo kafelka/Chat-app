@@ -66,6 +66,7 @@ msgToSend.addEventListener("keyup", function(e) {
 // function addListenersToChatTabs(tabList) {
 //   tabList.forEach(x => x.addEventListener("click", 
 function toggleChatWindow(currentTab) {
+  console.log("toggleChatWindow");
   const activeTab = document.querySelector(".active");
   document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
   activeTab.classList.remove("active");
@@ -142,6 +143,10 @@ class ChatConversation {
   }
 }
 
+function closeChatTab(x) {
+  console.log(x);
+} 
+
 class ChatNavigationTab {
   constructor(name, isActive) {
     this.name = name;
@@ -150,7 +155,7 @@ class ChatNavigationTab {
   getHTML() {
     const activeConv = this.isActive ? 'class="active"' : "";
     return `
-     <li><a ${activeConv} href="#" onclick="toggleChatWindow(this)" data-toggle="${this.name}">${this.name}</a></li>
+     <li><a ${activeConv} href="#" onclick="toggleChatWindow(this)" data-toggle="${this.name}">${this.name}<div class="close" onclick="closeChatTab(this)"> </div></a></li>
     `
   }
 }
