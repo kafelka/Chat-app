@@ -150,7 +150,7 @@ ul.tabs li a.active {
 
 .close:before, .close:after {
   position: absolute;
-  left: 15px;
+  /* left: 15px; */
   content: ' ';
   height: 15px;
   width: 2px;

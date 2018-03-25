@@ -66,10 +66,11 @@ msgToSend.addEventListener("keyup", function(e) {
 // function addListenersToChatTabs(tabList) {
 //   tabList.forEach(x => x.addEventListener("click", 
 function toggleChatWindow(currentTab) {
-  console.log("toggleChatWindow");
-  const activeTab = document.querySelector(".active");
-  document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
-  activeTab.classList.remove("active");
+  const activeTab = document.querySelector(".chatNavigation .active");
+  if (activeTab != null) {
+    document.querySelector("#" + activeTab.dataset.toggle).style.display = "none";
+    activeTab.classList.remove("active");
+  } 
   currentTab.classList.add("active");
   document.querySelector("#" + currentTab.dataset.toggle).style.display = "block";
   //update user list on channel change
@@ -78,19 +79,39 @@ function toggleChatWindow(currentTab) {
 // ));
 // }
 
+function closeChatTab(event) {
+  event.stopPropagation();
+  const closingTab = event.srcElement.parentElement;
+  const channelName = closingTab.dataset.toggle;
+  if (closingTab.classList.contains("active")) {
+    closingTab.parentElement.remove();
+    const tabToMakeActive = document.querySelector(".chatNavigation a");
+    if (tabToMakeActive != null) {
+      toggleChatWindow(tabToMakeActive);
+    }
+    console.log(tabToMakeActive);
+  } else {
+    closingTab.parentElement.remove();
+  }
+  document.querySelector("#" + channelName).remove();
+} 
+
+
 /* **************
  * SENDING MESSAGES
  * **************/
 function sendMessageAction() {
   if (msgToSend.value.trim() != "") { //trim = removing whitespace
-    const activeTab = document.querySelector(".active");
-    const activeChat = document.querySelector("#" + activeTab.dataset.toggle + " ul");
-    let currentTime = ((new Date().toLocaleTimeString()));
-    const messageText = msgToSend.value.replace(/</g, "&#60");
-    postMessage(activeTab.dataset.toggle, messageText);
-    addMessage(activeChat, currentTime, nick.value, messageText); 
-    activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight; //scroll to the bottom of div
-    msgToSend.value = "";
+    const activeTab = document.querySelector(".chatNavigation .active");
+    if (activeTab != null) {
+      const activeChat = document.querySelector("#" + activeTab.dataset.toggle + " ul");
+      let currentTime = ((new Date().toLocaleTimeString()));
+      const messageText = msgToSend.value.replace(/</g, "&#60");
+      postMessage(activeTab.dataset.toggle, messageText);
+      addMessage(activeChat, currentTime, nick.value, messageText); 
+      activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight; //scroll to the bottom of div
+      msgToSend.value = "";
+    }
   }
 };
 
@@ -111,13 +132,20 @@ function addMessage(convUl, messageTime, nick, msg) {
 
  function openChannel(channelName){
   const activeChannels = Array.from(chatMainWindow.children).map(x => x.id);
-  if (activeChannels.includes(channelName)) {
-    //to do close channel 
-  } else {
-    const chatNavTab = new ChatNavigationTab(channelName, false);
-    chatNavigation.innerHTML += chatNavTab.getHTML();
-    const chatConvDiv = new ChatConversation(channelName, false);
-    chatMainWindow.innerHTML += chatConvDiv.getHTML();
+  if (!activeChannels.includes(channelName)) {
+    const activeTab = document.querySelector(".chatNavigation .active");
+    if (activeTab == null) {
+      const chatNavTab = new ChatNavigationTab(channelName, true);
+      chatNavigation.innerHTML += chatNavTab.getHTML();
+      const chatConvDiv = new ChatConversation(channelName, true);
+      chatMainWindow.innerHTML += chatConvDiv.getHTML();
+    } else {
+      const chatNavTab = new ChatNavigationTab(channelName, false);
+      chatNavigation.innerHTML += chatNavTab.getHTML();
+      const chatConvDiv = new ChatConversation(channelName, false);
+      chatMainWindow.innerHTML += chatConvDiv.getHTML();
+    }
+    //to do add user to channels users list
     getMessages(channelName);
   }
 }
@@ -143,9 +171,6 @@ class ChatConversation {
   }
 }
 
-function closeChatTab(x) {
-  console.log(x);
-} 
 
 class ChatNavigationTab {
   constructor(name, isActive) {
@@ -155,7 +180,7 @@ class ChatNavigationTab {
   getHTML() {
     const activeConv = this.isActive ? 'class="active"' : "";
     return `
-     <li><a ${activeConv} href="#" onclick="toggleChatWindow(this)" data-toggle="${this.name}">${this.name}<div class="close" onclick="closeChatTab(this)"> </div></a></li>
+     <li><a ${activeConv} href="#" onclick="toggleChatWindow(this)" data-toggle="${this.name}">${this.name}<div class="close" onclick="return closeChatTab(event);"> </div></a></li>
     `
   }
 }
