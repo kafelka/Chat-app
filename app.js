@@ -9,6 +9,7 @@ const chatMainWindow = document.querySelector(".chatMainWindow");
 const chatNavigation = document.querySelector(".chatNavigation");
 const usersAndChannelsNavigation = document.querySelectorAll(".usersAndChannels .tabs li a");
 const channelList = document.getElementById("channelsList");
+const body = document.querySelector("body");
 
 /* **************
  * EVENT LISTENERS - CLICK
@@ -89,12 +90,18 @@ function closeChatTab(event) {
     if (tabToMakeActive != null) {
       toggleChatWindow(tabToMakeActive);
     }
-    console.log(tabToMakeActive);
   } else {
     closingTab.parentElement.remove();
   }
   document.querySelector("#" + channelName).remove();
+  deleteUserFromChannel(channelName);
 } 
+
+window.addEventListener('unload', function(event) {
+  //does not work
+  const activeChannels = Array.from(chatMainWindow.children).map(x => x.id);
+  activeChannels.forEach(channel => deleteUserFromChannel(channel));
+});
 
 
 /* **************
@@ -145,8 +152,8 @@ function addMessage(convUl, messageTime, nick, msg) {
       const chatConvDiv = new ChatConversation(channelName, false);
       chatMainWindow.innerHTML += chatConvDiv.getHTML();
     }
-    //to do add user to channels users list
     getMessages(channelName);
+    addUserToChannel(channelName);
   }
 }
 
@@ -324,10 +331,25 @@ function postMessage(channel, messageText) {
   xhr.send(JSON.stringify({user: nick.value, message: messageText}));
 }
 
+function addUserToChannel(channel) {
+  const url = webserviceURL + "users/" + channel;
 
+  const xhr = new XMLHttpRequest();
 
+  xhr.open('PUT', url);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({user: nick.value}));
+}
 
+function deleteUserFromChannel(channel) {
+  const url = webserviceURL + "users/" + channel;
 
+  const xhr = new XMLHttpRequest();
+
+  xhr.open('DELETE', url);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({user: nick.value}));
+}
 
 
 
