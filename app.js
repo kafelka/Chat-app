@@ -25,6 +25,7 @@ loginBtn.addEventListener("click", function loginToChat() {
     if (window.matchMedia('(max-width: 480px)').matches) {
       document.querySelector(".mobileMenu").style.display = "block";
     }
+    window.setInterval(getNewMessages, 1000);
   } else {
     //show error message
   }
@@ -115,24 +116,29 @@ function sendMessageAction() {
       let currentTime = ((new Date().toLocaleTimeString()));
       const messageText = msgToSend.value.replace(/</g, "&#60");
       postMessage(activeTab.dataset.toggle, messageText);
-      addMessage(activeChat, currentTime, nick.value, messageText); 
+      // addMessage(activeChat, currentTime, nick.value, messageText); 
       activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight; //scroll to the bottom of div
       msgToSend.value = "";
     }
   }
 };
 
-function addMessage(convUl, messageTime, nick, msg) {
-  const li = `
-  <li class="chatMessage">
-    <span>${messageTime}</span>
-    <span>${nick}</span>
-    <span>${msg}</span>
-  </li>
-  `
-  convUl.insertAdjacentHTML('beforeend', li); //
-};
+// function addMessage(convUl, messageTime, nick, msg) {
+//   const li = `
+//   <li class="chatMessage">
+//     <span>${messageTime}</span>
+//     <span>${nick}</span>
+//     <span>${msg}</span>
+//   </li>
+//   `
+//   convUl.insertAdjacentHTML('beforeend', li); //
+// };
 
+function getNewMessages() {
+  const activeChannels = Array.from(chatMainWindow.children).map(x => x.id);
+  const timestamp = Math.floor(Date.now() / 1000) - 1;
+  activeChannels.forEach(channel => getMessages(channel, timestamp));
+}
 /* **************
  * NEW CHANNEL
  * **************/
@@ -152,7 +158,7 @@ function addMessage(convUl, messageTime, nick, msg) {
       const chatConvDiv = new ChatConversation(channelName, false);
       chatMainWindow.innerHTML += chatConvDiv.getHTML();
     }
-    getMessages(channelName);
+    getMessages(channelName, null);
     addUserToChannel(channelName);
   }
 }
@@ -213,10 +219,12 @@ class ChannelLi {
 /* **************
  * API CALLS
  * **************/
-function getMessages(channel) {
-  const url = webserviceURL + "messages/" + channel;
+function getMessages(channel, timestamp) {
+  let url = webserviceURL + "messages/" + channel; 
+  if(timestamp != null) {
+    url += "/" + timestamp;
+  }
   const xhr = new XMLHttpRequest();
-
   xhr.open('GET', url);
 
   xhr.onload = function() {
@@ -226,7 +234,7 @@ function getMessages(channel) {
       channelMsgs.forEach(function(msg){
         const msgHTML = `
           <li class="chatMessage">
-            <span>${msg.timestamp}</span>
+            <span>${((new Date(msg.timestamp * 1000).toLocaleTimeString()))}</span>
             <span>${msg.user}</span>
             <span>${msg.message}</span>
           </li>
@@ -277,10 +285,8 @@ function getChannels(user) {
         //adding chat div to page HTML so querySelector(msgList) in getMessages finds an element to append messages
         const chatConvDiv = new ChatConversation(channelName, isFirstChannel);
         chatMainWindow.innerHTML += chatConvDiv.getHTML();
-        getMessages(channelName);
+        getMessages(channelName, null);
     });
-    // const chatTab = document.querySelectorAll(".chatNavigation li a");
-    // addListenersToChatTabs(chatTab);
 
     //getting user list so that it is already loaded when user logs in
     const activeTab = document.querySelector(".active");
