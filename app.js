@@ -4,12 +4,10 @@ const loginBtn = document.querySelector(".form button");
 const mobileMenu = document.querySelector(".mobileMenu");
 const sendBtn = document.querySelector("#sendBtn");
 const msgToSend = document.querySelector("#messageToSend");
-
 const chatMainWindow = document.querySelector(".chatMainWindow");
 const chatNavigation = document.querySelector(".chatNavigation");
 const usersAndChannelsNavigation = document.querySelectorAll(".usersAndChannels .tabs li a");
 const channelList = document.getElementById("channelsList");
-const body = document.querySelector("body");
 
 /* **************
  * EVENT LISTENERS - CLICK
@@ -26,6 +24,7 @@ loginBtn.addEventListener("click", function loginToChat() {
       document.querySelector(".mobileMenu").style.display = "block";
     }
     window.setInterval(getNewMessages, 1000);
+    window.setInterval(refreshUsers, 5000);
   } else {
     //show error message
   }
@@ -90,6 +89,9 @@ function closeChatTab(event) {
     const tabToMakeActive = document.querySelector(".chatNavigation a");
     if (tabToMakeActive != null) {
       toggleChatWindow(tabToMakeActive);
+    } else {
+      msgToSend.style.display = "none";
+      sendBtn.style.display = "none";
     }
   } else {
     closingTab.parentElement.remove();
@@ -113,26 +115,23 @@ function sendMessageAction() {
     const activeTab = document.querySelector(".chatNavigation .active");
     if (activeTab != null) {
       const activeChat = document.querySelector("#" + activeTab.dataset.toggle + " ul");
-      let currentTime = ((new Date().toLocaleTimeString()));
       const messageText = msgToSend.value.replace(/</g, "&#60");
       postMessage(activeTab.dataset.toggle, messageText);
-      // addMessage(activeChat, currentTime, nick.value, messageText); 
       activeChat.parentElement.scrollTop = activeChat.parentElement.scrollHeight; //scroll to the bottom of div
       msgToSend.value = "";
     }
   }
 };
 
-// function addMessage(convUl, messageTime, nick, msg) {
-//   const li = `
-//   <li class="chatMessage">
-//     <span>${messageTime}</span>
-//     <span>${nick}</span>
-//     <span>${msg}</span>
-//   </li>
-//   `
-//   convUl.insertAdjacentHTML('beforeend', li); //
-// };
+/* **************
+ * TIMERS 
+ * **************/
+function refreshUsers(){
+  const activeTab = document.querySelector(".chatNavigation .active");
+  if (activeTab != null) {
+    getUserList(activeTab.dataset.toggle);
+  }
+}
 
 function getNewMessages() {
   const activeChannels = Array.from(chatMainWindow.children).map(x => x.id);
@@ -152,6 +151,8 @@ function getNewMessages() {
       chatNavigation.innerHTML += chatNavTab.getHTML();
       const chatConvDiv = new ChatConversation(channelName, true);
       chatMainWindow.innerHTML += chatConvDiv.getHTML();
+      msgToSend.style.display = "inline-block";
+      sendBtn.style.display = "inline-block";
     } else {
       const chatNavTab = new ChatNavigationTab(channelName, false);
       chatNavigation.innerHTML += chatNavTab.getHTML();

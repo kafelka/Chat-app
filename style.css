@@ -253,6 +253,10 @@ p {
   background-color: #96858F;
 }
 
+#usersList {
+  overflow-y: scroll;
+}
+
 img {
   float: left;
   height: 45px;
@@ -336,16 +340,21 @@ img {
 
 
 @media screen and (min-width: 481px) and (max-width: 800px) {
+  .chatMainWindow, .usersAndChannels {
+    height: 80%;
+  }
+
   .container {
     width: 100%;
     height: 100vh;
     margin: 0 auto;
   }
   .section {
-    width: 70%;
+    width: 65%;
+    background-color: red;
   }
   .usersAndChannels {
-    width: 25%;
+    width: 30%;
   }
   ul.tabs {
     height: 7%;
@@ -356,11 +365,9 @@ img {
   .chatInput {
     width: 98vw;
   }
-  .usersAndChannels {
-    height: 83%;
-  }
   .items {
     padding: 20px 10px;
+    height: 93%;
   }
   img {
     width: 25px;
