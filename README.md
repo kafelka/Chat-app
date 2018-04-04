@@ -13,5 +13,5 @@ After that you can open index.html in your browser.
 
 Authors
 -------
-HTML, CSS, JavaScript - [Maggie](github.com/kafelka)
+HTML, CSS, JavaScript - [Maggie](github.com/kafelka)  
 Python, SQL - [Wojtek](github.com/wafflecop)
