@@ -24,15 +24,11 @@ CREATE TABLE channel_user_rel (
   PRIMARY KEY(channel, user_login)
 );
 
-INSERT INTO channel_user_rel (channel, user_login) VALUES ('General', 'Mark');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('General', 'Susan');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('General', 'Tom');
-INSERT INTO channel_user_rel (channel, user_login) VALUES ('General', 'Ann');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('JavaScript', 'Jack');
-INSERT INTO channel_user_rel (channel, user_login) VALUES ('JavaScript', 'Susan');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('JavaScript', 'Ann');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('London', 'Ann');
-INSERT INTO channel_user_rel (channel, user_login) VALUES ('London', 'Tom');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('London', 'Jack');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('Music', 'Jack');
 INSERT INTO channel_user_rel (channel, user_login) VALUES ('Music', 'Susan');

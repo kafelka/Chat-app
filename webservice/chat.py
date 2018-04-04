@@ -32,18 +32,37 @@ def get_channel_list(user):
     channels = [row[0] for row in c.execute('SELECT channel FROM channel_user_rel WHERE user_login=? ', (user, ))]
     if not channels:
         channels = ['General']
+        c.execute(
+            'INSERT INTO channel_user_rel (channel, user_login) VALUES (?, ?)',
+            (channels[0], user,)
+        )
 
     return jsonify({'channels': channels})
 
 
 @app.route('/users/<channel>',  methods=['GET', 'PUT', 'DELETE'])
 def get_users(channel):
+    c = conn.cursor()
     if request.method == 'GET':
-        c = conn.cursor()
         users = [row[0] for row in c.execute('SELECT user_login FROM channel_user_rel WHERE channel=? ', (channel, ))]
 
         return jsonify({'users': users})
-    pass
+    elif request.method == 'PUT':
+        content = request.get_json(silent=True)
+        c.execute(
+            'INSERT INTO channel_user_rel (channel, user_login) VALUES (?, ?)',
+            (channel, content['user'])
+        )
+        conn.commit()
+        return ''
+    elif request.method == 'DELETE':
+        content = request.get_json(silent=True)
+        c.execute(
+            'DELETE FROM channel_user_rel WHERE channel=? AND user_login=?',
+            (channel, content['user'])
+        )
+        conn.commit()
+        return ''
 
 
 @app.route('/messages/<channel>')
@@ -75,8 +94,9 @@ def send_message(channel):
     c = conn.cursor()
     c.execute(
         'INSERT INTO messages (channel, user_login, ts, message) VALUES (?, ?, ?, ?)',
-        (channel, content['user'], int(datetime.utcnow().timestamp()), content['message'])
+        (channel, content['user'], int(datetime.utcnow().timestamp()) + 3600, content['message'])
     )
+    conn.commit()
     return ''
 
 
